@@ -159,7 +159,10 @@ const Header: React.FC<HeaderProps> = () => {
 // CSS styles
 
 const mobileViewStyle : React.CSSProperties = {
-  display: 'flex',height:'50px',backgroundColor: headerBg
+  display: 'flex',
+  height:'50px',
+  backgroundColor: headerBg,
+  width : '100%'
 }
 
 const imageStyle : React.CSSProperties = {
