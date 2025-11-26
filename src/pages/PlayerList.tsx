@@ -102,8 +102,10 @@ const PlayerList: React.FC = () => {
 
     return (
         <>
-        
+        <div style={{display:'flex'}}>
         <Header/>
+        </div>
+        
         {/* <div style={playerCountStyle}>
         {isLoading && <Loader type="spinner-cub" bgColor={'#194564'} color={'white'} title={"Loading Players..."} size={50} /> }
             <span style={{marginTop:'20px', color:'white'}}>
@@ -205,7 +207,8 @@ const playerListContainer: React.CSSProperties = {
     margin: '0 auto',
     padding: '2rem',
     backgroundColor:'#001840',
-    // width: "500px", height: "600px", overflow: "hidden",
+    // width: "500px", height: "600px", 
+    overflow: "hidden",
     // display: "flex",
     //     alignItems: "center",
     //     justifyContent: "center"
@@ -433,7 +436,7 @@ const isMobile = window.matchMedia("(max-width: 600px)").matches;
         playerCountStyle.fontSize = '12px'; // Adjust font size for mobile view
         playerCountStyle.padding = '10px'
 
-        playerListContainer.gridTemplateColumns =  'repeat(auto-fit, minmax(10rem, 1fr))'
+        // playerListContainer.gridTemplateColumns =  'repeat(auto-fit, minmax(14rem, 1fr))'
         playerListContainer.padding =  '0rem'
 
         // players__card__wrap.margin = '10px'

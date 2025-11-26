@@ -162,7 +162,7 @@ const mobileViewStyle : React.CSSProperties = {
   display: 'flex',
   height:'50px',
   backgroundColor: headerBg,
-  width : '100%'
+  // width : '100%'
 }
 
 const imageStyle : React.CSSProperties = {
