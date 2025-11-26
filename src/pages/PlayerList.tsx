@@ -143,7 +143,7 @@ const PlayerList: React.FC = () => {
                     {/* <img key={index} src={BACKEND_URL + '/player_images/' + player.profile_image} alt="logo" style={profileImageStyle}/> */}
                     </div>
 
-                    <div style={{display:'flex',width:'189px',marginLeft:'36px',textAlign:'center'}}>
+                    <div style={{display:'flex',width:'146px',marginLeft:'30px',textAlign:'center'}}>
                         <span style={fullNameText}>{player.fullname.toUpperCase()}</span>
                     </div>
                     
@@ -152,31 +152,31 @@ const PlayerList: React.FC = () => {
                         
                         <div style={cardBodyTextStyle}> 
 
-                        <div style={{display : "grid", textAlign:'center', marginTop : '-307px', width:'68px',marginLeft : '201px'}}>
+                        <div style={{display : "grid", textAlign:'center', marginTop : '-232px', width:'60px',marginLeft : '156px'}}>
                             <span style={{ ...idText }}>#{player.id}</span>
                         </div>
 
-                        <div style={{display : "grid", marginTop : '32px', width:'214px',marginLeft : '203px'}}>
+                        <div style={{display : "grid", marginTop : '22px', width:'214px',marginLeft : '141px'}}>
                             <span style={{ ...fullNameLabel, marginLeft: '66px' }}>Player Role</span>
                             <span style={{ ...labelValue, marginLeft: '62px' }}>{player.player_role}</span>
                         </div>
 
-                         <div style={{display : "grid",  width:'214px',marginLeft : '203px'}}>
+                         <div style={{display : "grid",  width:'214px',marginLeft : '143px', marginTop:'1px'}}>
                             <span style={{ ...fullNameLabel, marginLeft: '58px' }}>Batting Style</span>
                                 <span style={{ ...labelValue, marginLeft: '55px' }}>{player.batting_style}</span>
                             </div>
 
-                         <div style={{display : "grid",width:'214px',marginLeft : '203px'}}>
+                         <div style={{display : "grid",width:'214px',marginLeft : '145px',marginTop:'1px'}}>
                             <span style={{ ...fullNameLabel, marginLeft: '51px' }}>Bowling Style</span>
                                 <span style={{ ...labelValue, marginLeft: '48px' }}>{player.bowling_style}</span>
                             </div>
 
-                        <div style={{display : "grid", width:'214px',marginLeft : '203px'}}>
+                        <div style={{display : "grid", width:'214px',marginLeft : '144px',marginTop:'1px'}}>
                             <span style={{ ...fullNameLabel, marginLeft: '45px' }}>Place</span>
-                                <span style={{ ...labelValue, marginLeft: '40px' }}>{player.location}</span>
+                                <span style={{ ...labelValue, marginLeft: '42px' }}>{player.location}</span>
                             </div>
 
-                        <div style={{display : "grid",  width:'214px',marginLeft : '203px'}}>
+                        <div style={{display : "grid",  width:'214px',marginLeft : '146px',marginTop:'1px'}}>
                             <span style={{ ...fullNameLabel, marginLeft: '37px' }}>Contact</span>
                                 <span style={{ ...labelValue, marginLeft: '34px' }}>{player.contact_no}</span>
                             </div>
@@ -201,14 +201,15 @@ const PlayerList: React.FC = () => {
 
 const playerListContainer: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(26rem, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(25rem, 1fr))',
     gap: '2rem',
     // maxWidth: '120rem',
     margin: '0 auto',
     padding: '2rem',
     backgroundColor:'#001840',
-    // width: "500px", height: "600px", 
-    overflow: "hidden",
+    // width: "100%",
+    //  height: "600px", 
+    // overflow: "hidden",
     // display: "flex",
     //     alignItems: "center",
     //     justifyContent: "center"
@@ -295,24 +296,24 @@ const spanText1 :  React.CSSProperties = {
 }
 
 const fullNameText :  React.CSSProperties = {
-    marginTop: '10px', 
+    marginTop: '6px', 
     fontWeight: '600', 
-    fontSize: '20px',
+    fontSize: '16px',
     // paddingLeft : '114px',
     color:"maroon",
     // marginLeft : '-78px',
-    width : '189px',
+    width : '146px',
     fontStyle:'italic',
-    height:'65px'
+    height:'42px'
 }
 
 const fullNameLabel : React.CSSProperties = {
     // marginTop: '15px', 
     fontWeight: 'bold', 
-    fontSize: '18px',
+    fontSize: '14px',
     // paddingLeft : '52px',
     color:"maroon",
-    transform : 'rotate(11deg)',
+    transform : 'rotate(10deg)',
     
 }
 
@@ -330,10 +331,10 @@ const idText :  React.CSSProperties = {
 const labelValue :  React.CSSProperties = {
     // marginTop: '15px', 
     fontWeight: 'bold', 
-    fontSize: '18px',
+    fontSize: '14px',
     // paddingLeft : '52px',
     color:"black",
-    transform : 'rotate(11deg)',
+    transform : 'rotate(10deg)',
     
 }
 
@@ -347,15 +348,15 @@ const svgStyle :React.CSSProperties = {
 }
 
 const profileImageStyle : React.CSSProperties = {
-    height: '14rem',
-    width: '10.7rem',
+    height: '11rem',
+    width: '8.5rem',
     // padding: '5px',
     alignItems: 'flex-start',
     // display: 'grid',
-    marginLeft: '48px',
+    marginLeft: '38px',
     objectFit:'cover',
     // borderRadius : "10px",
-    marginTop:"235px",
+    marginTop:"190px",
     // clipPath: "path('M0 0 H160 Q160 40 200 40 V200 H0 Z')"
     clipPath: "path('M 0 0 H 157 Q 166 40 200 40 V 225 H 0 Z')"
     // borderImage: "linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 10%)",
@@ -377,8 +378,8 @@ const players__card__wrap :  React.CSSProperties = {
     margin: '0 auto',
     marginTop:'25px',
     // backgroundColor:"#d4af37"
-    width: "453px",
-    height: "640px",
+    width: "361px",
+    height: "510px",
     // objectFit :"cover"
   }
 
@@ -436,7 +437,7 @@ const isMobile = window.matchMedia("(max-width: 600px)").matches;
         playerCountStyle.fontSize = '12px'; // Adjust font size for mobile view
         playerCountStyle.padding = '10px'
 
-        // playerListContainer.gridTemplateColumns =  'repeat(auto-fit, minmax(14rem, 1fr))'
+        playerListContainer.gridTemplateColumns =  'repeat(auto-fit, minmax(18rem, 1fr))'
         playerListContainer.padding =  '0rem'
 
         // players__card__wrap.margin = '10px'

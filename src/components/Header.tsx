@@ -162,7 +162,7 @@ const mobileViewStyle : React.CSSProperties = {
   display: 'flex',
   height:'50px',
   backgroundColor: headerBg,
-  // width : '100%'
+  width : '100%'
 }
 
 const imageStyle : React.CSSProperties = {
@@ -249,24 +249,24 @@ const buttonStyle : React.CSSProperties = {
 }
 
 
-const screenWidth = window.innerWidth;
-console.log("screenWidth==header= ",screenWidth)
-if (screenWidth <= 360) {
-  console.log("header <=360 px");
-  mobileViewStyle.width = "116%"
+// const screenWidth = window.innerWidth;
+// console.log("screenWidth==header= ",screenWidth)
+// if (screenWidth <= 360) {
+//   console.log("header <=360 px");
+//   mobileViewStyle.width = "116%"
  
 
-} else if (screenWidth <= 480) {
-  console.log("header <=480 px");
-  mobileViewStyle.width = "99%"
+// } else if (screenWidth <= 480) {
+//   console.log("header <=480 px");
+//   mobileViewStyle.width = "99%"
   
 
-} else if (screenWidth <= 600) {
-  console.log("header <=600 px");
-  ulStyle.display = 'grid';
-  ulStyle.textAlign = 'left';
+// } else if (screenWidth <= 600) {
+//   console.log("header <=600 px");
+//   ulStyle.display = 'grid';
+//   ulStyle.textAlign = 'left';
 
-}
+// }
 
 
 
