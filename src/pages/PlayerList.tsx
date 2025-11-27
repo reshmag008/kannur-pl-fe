@@ -310,7 +310,7 @@ const fullNameText :  React.CSSProperties = {
 const fullNameLabel : React.CSSProperties = {
     // marginTop: '15px', 
     fontWeight: 'bold', 
-    fontSize: '14px',
+    fontSize: '12px',
     // paddingLeft : '52px',
     color:"maroon",
     // transform : 'rotate(10deg)',
@@ -331,7 +331,7 @@ const idText :  React.CSSProperties = {
 const labelValue :  React.CSSProperties = {
     // marginTop: '15px', 
     fontWeight: 'bold', 
-    fontSize: '14px',
+    fontSize: '12px',
     // paddingLeft : '52px',
     color:"black",
     // transform : 'rotate(10deg)',
