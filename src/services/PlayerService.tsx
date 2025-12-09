@@ -4,12 +4,12 @@ import axios from 'axios'
 
 export const PlayerService = () => ({
 
-    getAllPlayers: (teamId:any) => {
+    getAllPlayers: (params:any) => {
         // console.log("teamId== ", params.teamId);
-        if(teamId){
-            return(axios.get(BACKEND_URL + "/players/" + teamId))
+        if(params.teamId){
+            return(axios.get(BACKEND_URL + "/players/" + params.teamId))
         }else{
-            return(axios.get(BACKEND_URL + "/players/"))
+            return(axios.get(BACKEND_URL + "/players/" + `?limit=${10}&offset=${params.offset}`))
         }
         
     },

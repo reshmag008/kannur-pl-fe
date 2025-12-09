@@ -9,6 +9,7 @@ import playerPhoto from '../assets/playerPhoto.png'
 import playerBg from '../assets/playerBg.jpeg'
 import { BACKEND_URL } from '../constants';
 import PDFCreator from './PDFCreator';
+import InfiniteScroll from "react-infinite-scroll-component";
 
 
 
@@ -25,6 +26,15 @@ const PlayerList: React.FC = () => {
     const [offset, setOffset] = useState(0);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
 
+
+    const [items, setItems] = useState<any>([]);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const calledRef = useRef(false);
+
+
+
+
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 600);
@@ -37,10 +47,30 @@ const PlayerList: React.FC = () => {
         };
     }, []);
 
+//     const fetchMoreData = async () => {
+//     const res = await fetch(
+//       `https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=10`
+//     );
+//     const data = await res.json();
+
+//     if (data.length === 0) {
+//       setHasMore(false);
+//       return;
+//     }
+
+//     setItems((prev:any) => [...prev, ...data]);
+//     setPage(prev => prev + 1);
+//   };
+
+
+
     useEffect(()=>{
+        if (calledRef.current) return;
+  calledRef.current = true;
+        GetAllPlayers();
         GetAllTeams();
         setPlayers([]);
-        GetAllPlayers(selectedTeamId);
+        // GetAllPlayers(selectedTeamId);
     },[])
 
     const GetAllTeams = () =>{
@@ -48,17 +78,19 @@ const PlayerList: React.FC = () => {
             setAllTeams(response?.data)
         })
     }
-   
-    const GetAllPlayers = (teamId:any) => {
+   const GetAllPlayers = async () => {
+    // const GetAllPlayers = async (teamId:any) => {
         setIsLoading(true);
         try {
+            let teamId = selectedTeamId;
             let params = {
-                offset : offset,
+                offset : page,
                 teamId : teamId
             }
-            PlayerService().getAllPlayers(teamId).then((response:any)=>{
+            PlayerService().getAllPlayers(params).then((response:any)=>{
                 setIsLoading(false);
-                setPlayers(response?.data?.players);
+                // setPlayers(response?.data?.players);
+                setPlayers((prev:any) => [...prev, ...response?.data?.players]);
                 let playerList = response?.data?.players;
                 if(playerList>0){
 
@@ -66,6 +98,14 @@ const PlayerList: React.FC = () => {
                 setSoldCount(response?.data?.soldPlayerCount);
                 setUnSoldCount(response?.data?.unSoldPlayerCount);
                 setPendingCount(response?.data?.pendingPlayerCount);
+                if (playerList.length === 0) {
+                setHasMore(false);
+                return;
+                }
+
+                setItems((prev:any) => [...prev, ...playerList]);
+                setPage(prev => prev + 10);
+
             })
         } catch (error) {
             setIsLoading(false);
@@ -73,12 +113,12 @@ const PlayerList: React.FC = () => {
         }
     };
 
-    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) =>{
-        console.log("selectedItem-- ", event.target.value);
-        setSelectedTeamId(event.target.value);
-        GetAllPlayers(event.target.value);
+    // const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) =>{
+    //     console.log("selectedItem-- ", event.target.value);
+    //     setSelectedTeamId(event.target.value);
+    //     GetAllPlayers();
 
-    }
+    // }
 
     const downloadPdf = () =>{
         const pdfUrl = "Sample.pdf";
@@ -127,12 +167,14 @@ const PlayerList: React.FC = () => {
             <PDFCreator playerList={players}/>
             </div> */}
 
-
-
-        {isLoading && <Loader type="spinner-cub" bgColor={'#FFBF00'} color={'#FFBF00'} title={"Loading Players..."} size={50} /> }
-
-        {(players )&&
-        <div id='content-id' ref={targetRef}  style={playerListContainer}>
+        <InfiniteScroll
+      dataLength={items.length}   // ⚠️ mandatory
+      next={GetAllPlayers}
+      hasMore={hasMore}
+      loader={<h4>Loading...</h4>}
+      endMessage={<p style={{ textAlign: "center" }}>No more data</p>}
+    >
+      <div id='content-id' ref={targetRef}  style={playerListContainer}>
             {players.map((player:any, index:number) => (
                 <>
                 <div style={players__card__wrap} key={index}>
@@ -140,7 +182,6 @@ const PlayerList: React.FC = () => {
 
                     <div style={{display:"flex"}}>
                     <img key={index} src={`https://storage.googleapis.com/auction-players/${player.profile_image}`} alt="logo" style={profileImageStyle}/>
-                    {/* <img key={index} src={BACKEND_URL + '/player_images/' + player.profile_image} alt="logo" style={profileImageStyle}/> */}
                     </div>
 
                     <div style={{display:'flex',width:'146px',marginLeft:'30px',textAlign:'center'}}>
@@ -190,7 +231,15 @@ const PlayerList: React.FC = () => {
                 </>
             ))}
         </div>
-        }
+    </InfiniteScroll>
+
+
+
+        {isLoading && <Loader type="spinner-cub" bgColor={'#FFBF00'} color={'#FFBF00'} title={"Loading Players..."} size={50} /> }
+
+        {/* {(players )&&
+        
+        } */}
 
 
 
