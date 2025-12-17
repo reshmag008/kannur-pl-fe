@@ -182,6 +182,7 @@ const PlayerList: React.FC = () => {
 
                     <div style={{display:"flex"}}>
                     <img key={index} src={`https://storage.googleapis.com/auction-players/${player.profile_image}`} alt="logo" style={profileImageStyle}/>
+                    {/* <img key={index} src={BACKEND_URL + '/player_images/' + player.profile_image} alt="logo" style={profileImageStyle}/> */}
                     </div>
 
                     <div style={{display:'flex',width:'146px',marginLeft:'30px',textAlign:'center'}}>
@@ -457,7 +458,8 @@ const playerCountStyle : React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor:'#d4af37'
+    backgroundColor:'#d4af37',
+    marginTop:'40px'
 }
 
 const inputContainerStyle: React.CSSProperties = {

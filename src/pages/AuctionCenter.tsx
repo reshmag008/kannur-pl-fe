@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import PlayerService from "../services/PlayerService";
-import { BACKEND_URL, TOTAL_PLAYER } from "../constants";
+import { BACKEND_URL, roomId, TOTAL_PLAYER } from "../constants";
 import playerSvg from '../assets/account-icon.png'
 import battingSvg from '../assets/batter.png'
 import ballingSvg from '../assets/tennisBall.jpg'
@@ -12,6 +12,8 @@ import "react-toastify/dist/ReactToastify.css";
 import gradient from "../assets/aution_card.jpeg"
 import congratsJif from '../assets/congratulations.gif';
 import clapJif from '../assets/clap.gif'
+import { io } from "socket.io-client";
+
 
 
 
@@ -28,6 +30,33 @@ const AuctionCenter: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [popUpContent, setPopUpContent] = useState<any>({})
   const [openPopUp, setOpenPopUp] = useState(false);
+  const [socket, setSocket] = useState<any>(null);
+  
+ useEffect(() => {
+    const newSocket = io(BACKEND_URL,{
+                transports: ["polling", "websocket"],
+                withCredentials: true,
+                reconnection: true,
+            });;
+    setSocket(newSocket);
+    
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+      if (socket) {
+
+        socket.emit("join-room", roomId);
+
+        socket.on("current_player", (data:any) => {
+          console.log("Received:", data);
+        });
+        
+      }
+    }, [socket]);
+
 
 
   useEffect(() => {
@@ -131,6 +160,7 @@ const AuctionCenter: React.FC = () => {
           toast.error('Bid amount larger than max amount')
         } else {
           setCurrentBidTeam(team);
+          // socket.emit('current_bid' , {'team_name' :team.team_name, 'points':amount })
           setBidAmount(amount);
           let flow = bidFlow;
           flow.push({
@@ -319,87 +349,43 @@ const AuctionCenter: React.FC = () => {
 
               <div style={{ display: "flex" }}>
                 <img  src={`https://storage.googleapis.com/auction-players/${currentBidPlayer.profile_image}`} alt="logo" style={profileImageStyle}/>
-                {/* <img src={BACKEND_URL + '/player_images/' + currentBidPlayer.profile_image} alt="logo" style={profileImageStyle} />}
-                {/* <img src={`https://drive.google.com/thumbnail?id=${currentBidPlayer.profile_image}&z=w1000&export=download`} alt='logo' style={profileImageStyle} />  */}
-                {/* <span style={idText}>{currentBidPlayer.id}</span> */}
+                {/* <img src={BACKEND_URL + '/player_images/' + currentBidPlayer.profile_image} alt="logo" style={profileImageStyle} /> */}
               </div>
 
 
               <div style={cardHeader}>
 
-                {/* <img src={`https://drive.google.com/thumbnail?id=${player.profile_image}&z=w1000&export=download`} alt="logo" style={profileImageStyle}/> */}
 
                 <div style={cardBodyTextStyle}>
 
-                  {/* <div style={{display:'flex'}}>
-                <span style={fullNameText}>{currentBidPlayer.fullname.toUpperCase()}</span>
-            </div> */}
-
-                  <div style={{ display: 'flex', textAlign: 'center', width: '595px', marginLeft: '334px' }}>
-                    <span style={idText}>{currentBidPlayer.id}. {currentBidPlayer.fullname.toUpperCase()} </span>
+                 <div style={{ display: 'flex', textAlign: 'center', width: '125px', marginLeft: '251px' }}>
+                    <span style={fullNameText}>{currentBidPlayer.id}</span>
                   </div>
 
-                  {/* <div style={{display:'flex'}}>
-                <span style={fullNameText}>{player.fullname.toUpperCase()}</span>
-                <span style={fullNameText}>{player.location} </span>
-            </div> */}
-
-                  {/* <div style={{display:'flex'}}>
-                <span style={spanText}> Reg#:{player.id}</span>
-            </div> */}
-
-
-
-                  <div style={{ display: 'flex' }}>
-                    <span style={spanText1}>Role : {currentBidPlayer.player_role} </span>
+                  <div style={{ display: 'flex', marginTop:'-130px', marginLeft:'604px' }}>
+                    <span style={spanText1}>{currentBidPlayer.player_role} </span>
                   </div>
-                  <div style={{ display: 'flex', marginTop: '51px' }}>
-                    <span style={spanText1}>Batting : {currentBidPlayer.batting_style} </span>
+                  <div style={{ display: 'flex', marginTop: '3px',marginLeft:'604px' }}>
+                    <span style={spanText1}>{currentBidPlayer.batting_style} </span>
                   </div>
-                  <div style={{ display: 'flex', marginTop: '51px' }}>
-                    <span style={spanText1}>Bowling : {currentBidPlayer.bowling_style} </span>
+                  <div style={{ display: 'flex', marginTop: '7px',marginLeft:'604px'}}>
+                    <span style={spanText1}>{currentBidPlayer.bowling_style} </span>
                   </div>
-                  <div style={{ display: 'flex', marginTop: '51px' }}>
+                  <div style={{ display: 'flex', marginTop: '-6px',marginLeft:'604px' }}>
                     <span style={spanText1}>
-                      Location : {capitalizeFirst(currentBidPlayer?.location)}
+                      {capitalizeFirst(currentBidPlayer?.location)}
                     </span>
                   </div>
-                  <div style={{ display: 'flex', marginTop: '51px' }}>
-                    <span style={spanText1}>Contact : {currentBidPlayer.contact_no} </span>
+                  <div style={{ display: 'flex', marginLeft: '496px' }}>
+                    <span style={spanText}>{currentBidPlayer.contact_no} </span>
+                  </div>
+
+                  <div style={{ display: 'flex', textAlign: 'center', width: '309px', marginLeft: '-67px' }}>
+                    <span style={idText}>{currentBidPlayer.fullname.toUpperCase()} </span>
                   </div>
 
 
-
-                  {/* <div style={{display:'flex'}}>
-                <span style={spanText}>Batting : {player.batting_style}</span>
-                <span style={spanText}>Bowling : {player.bowling_style}</span>
-            </div> */}
-
-                  {/* <div style={{display:'flex'}}>
-                <span style={spanText}>Bowling : {player.bowling_style}</span>
-            </div> */}
-
-
-
-                  {/* <div style={{display:'flex'}}>
-                <span style={spanText}> Jersey No : {player.jersey_no}</span>
-            </div>
-
-            <div style={{display:'flex'}}>
-                <span style={spanText}>Jersey Size: {player.jersey_size}</span>
-            </div>
-
-            <div style={{display:'flex'}}>
-                <span style={spanText}>Jersey Name: {player.jersey_name}</span>
-            </div>  */}
-
-                  {/* <div style={{display:'flex'}}>
-                <span style={spanText}>Contact : {player.contact_no}</span>
-            </div> */}
-
-                  {/* <div style={{display:'flex'}}>
-                <span style={spanText}>Points: {player.bid_amount}</span>
-            </div>  */}
+                  
 
 
 
@@ -442,8 +428,8 @@ const AuctionCenter: React.FC = () => {
                   key={index}
                 >
                   <div style={teamStyle}>
-                    {/* <img src={team.team_logo} alt="logo" style={teamLogoStyle} /> */}
-                    <img key={index} src={BACKEND_URL + '/player_images/' + team.team_logo} alt="logo" style={imageStyle} />
+                    <img  src={`https://storage.googleapis.com/auction-players/${team.team_logo}`} alt="logo" style={imageStyle}/>
+                    {/* <img key={index} src={BACKEND_URL + '/player_images/' + team.team_logo} alt="logo" style={imageStyle} /> */}
 
                     {/* <img key={index} src={`https://drive.google.com/thumbnail?id=${team.team_logo}&z=w1000`} alt="logo" style={teamLogoStyle}/> */}
                     <h4 style={{ padding: "10px" }}>{team.team_name}</h4>
@@ -490,7 +476,8 @@ const playerListContainer: React.CSSProperties = {
   // maxWidth: '120rem',
   margin: '0 auto',
   padding: '2rem',
-  backgroundColor: 'white'
+  backgroundColor: 'white',
+  // marginTop : '117px'
 }
 
 const cardHeaderTextStyle: React.CSSProperties = {
@@ -509,15 +496,28 @@ const cardBodyTextStyle: React.CSSProperties = {
 
 };
 
-
-const idText: React.CSSProperties = {
-  marginTop: '-339px',
+const fullNameText: React.CSSProperties = {
+  background: "linear-gradient(to bottom, purple, black)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+  marginTop: '-229px',
   fontWeight: 'bold',
   fontSize: '45px',
   // paddingLeft : '277px',
-  color: "darkblue",
-  width: "595px",
+  // color: "darkblue",
+  width: "125px",
   height: "96px"
+}
+
+
+const idText: React.CSSProperties = {
+  background: "linear-gradient(to bottom, purple, black)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    width : '309px',
+    fontWeight : '600',
+    fontSize : '33px',
+    marginTop : '-18px'
 }
 
 const imageStyle: React.CSSProperties = {
@@ -557,34 +557,28 @@ const idNumStyle: React.CSSProperties = {
   textAlign: "center",
   height: "85px"
 
+
 }
 const spanText1: React.CSSProperties = {
-  marginTop: '-209px',
-  fontWeight: 'bold',
-  fontSize: '38px',
-  marginLeft: '378px',
-  color: 'darkblue',
-  width: '510px',
-  textAlign: 'center'
-  // paddingTop : '8px'
-}
+  backgroundImage: "linear-gradient(to bottom, purple, black)", // 👈 important
+  WebkitBackgroundClip: "text",
+  backgroundClip: "text", // 👈 add this for non-webkit browsers
+  WebkitTextFillColor: "transparent",
+
+  fontWeight: "bold",
+  fontSize: "26px",
+};
 
 const spanText: React.CSSProperties = {
-  marginTop: '-133px',
-  fontWeight: 'bold',
-  fontSize: '25px',
-  paddingLeft: '207px',
-  color: 'white'
-  // paddingTop : '8px'
+ backgroundImage: "linear-gradient(to bottom, purple, black)", // 👈 important
+  WebkitBackgroundClip: "text",
+  backgroundClip: "text", // 👈 add this for non-webkit browsers
+  WebkitTextFillColor: "transparent",
+  fontWeight: "bold",
+  fontSize: "28px",
 }
 
-const fullNameText: React.CSSProperties = {
-  marginTop: '2px',
-  fontWeight: 'bold',
-  fontSize: '27px',
-  paddingLeft: '209px',
-  color: "white"
-}
+
 
 const svgStyle: React.CSSProperties = {
   height: "1rem",
@@ -596,15 +590,15 @@ const svgStyle: React.CSSProperties = {
 };
 
 const profileImageStyle: React.CSSProperties = {
-  height: '21rem',
-  width: '17rem',
+  height: '18.1rem',
+  width: '18.1rem',
   // padding: '5px',
   alignItems: 'flex-start',
   // display: 'grid',
-  marginLeft: '116px',
-  marginTop: '194px',
+  marginLeft: '48px',
+  marginTop: '138px',
   objectFit: 'cover',
-  borderRadius: "21px"
+  borderRadius: "10px"
   // borderImage: "linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 10%)",
   // maskImage: "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%), linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 20%)",
   // maskComposite: "intersect",
@@ -612,7 +606,7 @@ const profileImageStyle: React.CSSProperties = {
 }
 
 const players__card__wrap: React.CSSProperties = {
-  width: "1200px",//"272%",
+  width: "953px",//"272%",
   gap: "2rem",
   // backgroundImage: "linear-gradient(to top,  #000033 , #800080)",
   backgroundImage: `url(${gradient})`,
@@ -620,9 +614,9 @@ const players__card__wrap: React.CSSProperties = {
   boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
   borderRadius: "8px",
   // margin: "0 auto",
-  marginTop: "-120px",
+  // marginTop: "-120px",
   marginLeft: "13px",//"-328px",
-  height: "42rem"
+  height: "33rem"
 };
 
 const players__card__wrap1: React.CSSProperties = {

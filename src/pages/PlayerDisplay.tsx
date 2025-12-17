@@ -1,7 +1,7 @@
 import React, {  useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
-import { BACKEND_URL, TOTAL_PLAYER } from "../constants";
+import { BACKEND_URL, TOTAL_PLAYER, roomId } from "../constants";
 import playerSvg from "../assets/account-icon.png";
 import battingSvg from "../assets/batter.png";
 import ballingSvg from "../assets/tennisBall.jpg";
@@ -31,7 +31,11 @@ const PlayerDisplay: React.FC = () => {
 
 
   useEffect(() => {
-    const newSocket = io(BACKEND_URL);
+    const newSocket = io(BACKEND_URL,{
+                transports: ["polling", "websocket"],
+                withCredentials: true,
+                reconnection: true,
+            });
     setSocket(newSocket);
     getSoldPlayers();
     GetAllTeams();
@@ -42,9 +46,19 @@ const PlayerDisplay: React.FC = () => {
 
   useEffect(() => {
     if (socket) {
+
+      socket.emit("join-room", roomId);
+      
+      socket.on("current_player", (data:any) => {
+        console.log("Received in player diaplay:", data);
+      });
+
+      // socket.join(roomId);
       socket.on("current_player", (message: any) => {
         console.log("current_player ---- ", message);
+        if(message){
         setCurrentPlayer(JSON.parse(message));
+        }
       });
       socket.on("team_call", (message: any) => {
         console.log("team_call ---- ", message);
@@ -158,49 +172,55 @@ const PlayerDisplay: React.FC = () => {
             <div >
                 {currentBidPlayer && currentBidPlayer.id && (
                     <div style={players__card__wrap}>
-                    <div style={cardHeader}>
+                    {/* <div style={cardHeader}> */}
+                      <div style={{display:'flex'}}>
                         <img  src={`https://storage.googleapis.com/auction-players/${currentBidPlayer.profile_image}`} alt="logo" style={profileImageStyle}/>
+                      {/* <img src={BACKEND_URL + '/player_images/' + currentBidPlayer.profile_image} alt="logo" style={profileImageStyle} /> */}
 
-                        {/* <img src={BACKEND_URL + '/player_images/' + currentBidPlayer.profile_image} alt="logo" style={profileImageStyle} /> */}
-
-                        <div style={{ display: 'flex', textAlign: 'center', width: '779px', marginLeft: '183px' }}>
-                          <span style={idText}>{currentBidPlayer.id}. {currentBidPlayer.fullname.toUpperCase()} </span>
-
-                        
-                        <div style={{ display: "flex" ,marginLeft:'-811px', marginTop:'537px', width:'780px'}}>
-                            <span style={spanText}>Role : {currentBidPlayer.player_role}</span>
-                        </div>
-
-                        <div style={{ display: "flex" ,marginLeft:'-780px', marginTop:'603px', width:'780px'}}>
-                            <span
-                            style={spanText}
-                            >
-                            Batting : {currentBidPlayer.batting_style}
-                            </span>
-                        </div>
-
-                        <div style={{ display: "flex",marginLeft:'-780px', marginTop:'669px', width:'780px' }}>
-                            <span
-                            style={spanText}
-                            >
-                            Bowling : {currentBidPlayer.bowling_style}
-                            </span>
-                        </div>
-
-                        <div style={{display: 'flex', marginLeft:'-780px', marginTop:'732px', width:'780px'}}>
-                            <span style={spanText}> Location : {capitalizeFirst(currentBidPlayer.location)}</span>
-                        </div>
-
-
-                        <div style={{ display: "flex",marginLeft:'-780px', marginTop:'802px', width:'780px' }}>
-                            <span style={spanText}>
-                            Contact : {currentBidPlayer.contact_no}
-                            </span>
-                        </div>
-
-                        
-                        </div>
                     </div>
+
+                        <div style={{ display: 'flex', textAlign: 'center', width: '164px', marginLeft: '469px' }}>
+                          <span style={idText}>{currentBidPlayer.id} </span>
+                        </div>
+
+                        <div style={{ display: 'flex', textAlign: 'center', width: '418px', marginLeft: '44px',marginTop:'57px' }}>
+                          <span style={idText1}>{currentBidPlayer.fullname.toUpperCase()} </span>
+                        </div>
+                        
+                        <div style={{ display: "flex" ,marginLeft:'938px', marginTop:'-302px', width:'780px'}}>
+                            <span style={spanText}>{currentBidPlayer.player_role}</span>
+                        </div>
+
+                        <div style={{ display: "flex" ,marginLeft:'938px', marginTop:'4px', width:'780px'}}>
+                            <span
+                            style={spanText}
+                            >
+                            {currentBidPlayer.batting_style}
+                            </span>
+                        </div>
+
+                        <div style={{ display: "flex",marginLeft:'938px', marginTop:'3px', width:'780px' }}>
+                            <span
+                            style={spanText}
+                            >
+                            {currentBidPlayer.bowling_style}
+                            </span>
+                        </div>
+
+                        <div style={{display: 'flex', marginLeft:'938px', marginTop:'-11px', width:'780px'}}>
+                            <span style={spanText}> {capitalizeFirst(currentBidPlayer.location)}</span>
+                        </div>
+
+
+                        <div style={{ display: "flex",marginLeft:'825px', marginTop:'-1px', width:'780px' }}>
+                            <span style={spanText}>
+                            {currentBidPlayer.contact_no}
+                            </span>
+                        </div>
+
+                        
+                        
+                    {/* </div> */}
                     <div style={cardFooter}></div>
                     </div>
                 )}
@@ -213,11 +233,12 @@ const PlayerDisplay: React.FC = () => {
                   
                   { allSoldPlayers.map((element:any, index:number) => (
                       <div key={index} style={{display:'flex', padding:'10px'}} >
-                              <img
+                        <img  src={`https://storage.googleapis.com/auction-players/${element.profile_image}`} alt="logo" style={profileImageStyle1}/>
+                              {/* <img
                               src={BACKEND_URL + '/player_images/' + element.profile_image}
                                   alt="logo"
                                   style={profileImageStyle1}
-                              />
+                              /> */}
                               <div style={{color:'purple'}}>
                                   <div >
                                       <span style={fullNameText}>{element.id}.{element.fullname.toUpperCase()}</span>
@@ -323,17 +344,24 @@ const imageStyle1: React.CSSProperties = {
 };
 
 const spanText: React.CSSProperties = {
+  backgroundImage: "linear-gradient(to bottom, purple, black)", // 👈 important
+  WebkitBackgroundClip: "text",
+  backgroundClip: "text", // 👈 add this for non-webkit browsers
+  WebkitTextFillColor: "transparent",
   // marginTop: "65px",
   fontWeight: "bold",
-  fontSize: "50px",
+  fontSize: "37px",
   // paddingLeft: "10px",
   // marginLeft : '30px',
-  color : 'darkblue',
-  width:'780px',
-  textAlign : 'center'
+  // color : 'darkblue',
+  // width:'780px',
+  // textAlign : 'center'
 };
 
 const idText: React.CSSProperties = {
+   background: "linear-gradient(to bottom, purple, black)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
   // marginTop: '-471px',
   fontWeight: 'bold',
   fontSize: '55px',
@@ -341,8 +369,23 @@ const idText: React.CSSProperties = {
   color: "darkblue",
   width: "881px",
   height: "96px",
-  marginLeft : '-114px',
-  marginTop : '330px'
+  // marginLeft : '-114px',
+  marginTop : '-274px'
+}
+
+const idText1: React.CSSProperties = {
+   background: "linear-gradient(to bottom, purple, black)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+  // marginTop: '-471px',
+  fontWeight: 'bold',
+  fontSize: '42px',
+  // paddingLeft : '277px',
+  // color: "darkblue",
+  width: "881px",
+  height: "96px",
+  // marginLeft : '-114px',
+
 }
 
 
@@ -363,16 +406,16 @@ const svgStyle: React.CSSProperties = {
 };
 
 const profileImageStyle: React.CSSProperties = {
-  height: "32rem",
-  width: "26rem",
+  height: "24rem",
+  width: "24.2rem",
   // padding: "5px",
-  alignItems: "flex-start",
+  // alignItems: "flex-start",
   // display: "grid",
-  marginTop: "300px",
+  marginTop: "186px",
   objectFit: "cover",
   // boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
   borderRadius: "23px",
-  marginLeft: "178px",
+  marginLeft: "63px",
   // filter: "grayscale(50%)",
   //   border: "5px solid transparent",
 };
@@ -403,9 +446,9 @@ const players__card__wrap: React.CSSProperties = {
   borderRadius: "8px",
 //   margin: "0/ auto",
   marginLeft: "180px",
-  width : '1840px',
-  marginTop : '52px',
-  height : '1034px'
+  width : '1270px',
+  marginTop : '168px',
+  height : '708px'
 };
 
 const cardHeader: React.CSSProperties = {
@@ -425,6 +468,7 @@ const playerCountStyle: React.CSSProperties = {
 };
 
 const displayMargin : React.CSSProperties = {
+  backgroundColor:'black',
     marginTop : '-150px',
     padding:'10px'
 }
@@ -444,6 +488,7 @@ const playCardHeading : React.CSSProperties = {
 }
 
 const soldPlayerListStyle : React.CSSProperties = {
+  backgroundColor:'white',
   border: "1px solid purple",
  boxShadow: "0 2px 4px rgba(0, 0, 0, 1.1)",
   borderRadius: "8px",

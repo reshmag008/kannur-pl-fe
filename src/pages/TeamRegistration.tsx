@@ -77,15 +77,15 @@ const TeamRegistration: React.FC = () => {
     if(selectedImage){
       formFileData.append('file_name', formData.team_name.replace(/[^A-Z0-9]/ig, "_") + '.jpeg',)
       formFileData.append('team_id', teamId)
-      formFileData.append('file', selectedImage)
+      formFileData.append('image', selectedImage)
     }
 
-    // PlayerService().PlayerImageUpload(formFileData).then((response:any)=>{
-    //   console.log("response== ", response);
-    //   resetData();
-    // })
+    PlayerService().PlayerImageUpload(formFileData).then((response:any)=>{
+      console.log("response== ", response);
+      resetData();
+    })
 
-     await PlayerService().PlayerImageGoogleStorageCloudUpload(formFileData);
+    //  await PlayerService().PlayerImageGoogleStorageCloudUpload(formFileData);
      resetData();
    
   }

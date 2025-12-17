@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { BACKEND_URL } from '../constants';
-import playerBg from '../assets/playerBg1.jpeg'
+import playerBg from '../assets/playerBg.jpeg'
 import ReactDOM from 'react-dom/client'; // Import createRoot from React 18
 import { format } from 'path';
 
@@ -28,7 +28,8 @@ const PDFCreator: React.FC<props> = ({playerList}) => {
 
     for (const player of playerList) {
         // Fetch the profile image and convert it to base64 if needed
-        const profileImageUrl = `https://storage.googleapis.com/auction-players/${player.profile_image}`;
+        const profileImageUrl = `${BACKEND_URL}/player_images/${player.profile_image}`;
+        // <img key={index} src={BACKEND_URL + '/player_images/' + player.profile_image} alt="logo" style={profileImageStyle}/> */}
         const profileImageBase64 = await fetch(profileImageUrl)
             .then((res) => res.blob())
             .then((blob) => new Promise((resolve) => {
@@ -62,31 +63,59 @@ const PDFCreator: React.FC<props> = ({playerList}) => {
                 
                 ">
                 <div style="display:flex">
-                    <img src="${profileImageBase64}" alt="Player Image" style="height: 62rem; width: 55rem; margin-left: 700px; object-fit: cover; margin-top: -790px;border-radius:19px;
+                    <img src="${profileImageBase64}" alt="Player Image" style="height: 21rem; width: 15rem; margin-left: 60px; object-fit: cover; margin-top: 320px;;
                     mask-composite: intersect;" />
                 </div>
+
                 <div style="text-align:center;">
-                    <p style="margin-top:110px; font-size: 40px; color: black; font-weight:bold;">${player.id}. ${player.fullname.toUpperCase()}</p>
+                    <p style="margin-top:-350px; margin-left:35px; font-size: 30px; color: maroon; font-weight:bold;">#${player.id}</p>
                 </div>
 
+                <div style="text-align:center;">
+                    <p style="margin-top:330px;  margin-left:-240px; font-size: 24px; color: maroon; font-weight:bold;">${player.fullname.toUpperCase()}</p>
+                </div>
+               
                 <div style="display:flex;">
-                    <p style="margin-top:70px; font-size: 68px; color:goldenrod; font-weight:bold;padding-left:750px">Location : ${player.location.toLowerCase()}</p>
+                    <p style="margin-top:-365px; font-size: 20px; color:maroon; font-weight:bold;padding-left:350px;transform :rotate(10deg)">Player Role</p>
                 </div>
                 
                 <div style="display:flex;">
-                    <p style="margin-top:20px; font-size: 70px; color:goldenrod; font-weight:bold;padding-left:750px">Role : ${player.player_role}</p>
-                </div>
-                <div style="display:flex;">
-                    <p style="margin-top:20px; font-size: 70px; color:goldenrod; font-weight:bold;padding-left:750px">Batting : ${player.batting_style}</p>
+                    <p style="margin-top:-345px; font-size: 20px; color:black; font-weight:bold;padding-left:345px;transform :rotate(10deg)">${player.player_role}</p>
                 </div>
 
                 <div style="display:flex;">
-                    <p style="margin-top:20px; font-size: 70px; color:goldenrod; font-weight:bold;padding-left:750px">Bowling : ${player.bowling_style} </p>
+                    <p style="margin-top:-310px; font-size: 20px; color:maroon; font-weight:bold;padding-left:340px;transform :rotate(10deg)">Batting Style</p>
                 </div>
                 
                 <div style="display:flex;">
-                    <p style="margin-top:20px; font-size: 70px; color:goldenrod; font-weight:bold;padding-left:750px">Contact : ${player.contact_no}</p>
+                    <p style="margin-top:-290px; font-size: 20px; color:black; font-weight:bold;padding-left:340px;transform :rotate(10deg)">${player.batting_style}</p>
                 </div>
+
+                <div style="display:flex;">
+                    <p style="margin-top:-260px; font-size: 20px; color:maroon; font-weight:bold;padding-left:335px;transform :rotate(10deg)">Bowling Style</p>
+                </div>
+                
+                <div style="display:flex;">
+                    <p style="margin-top:-240px; font-size: 20px; color:black; font-weight:bold;padding-left:335px;transform :rotate(10deg)">${player.bowling_style}</p>
+                </div>
+
+                <div style="display:flex;">
+                    <p style="margin-top:-210px; font-size: 20px; color:maroon; font-weight:bold;padding-left:330px;transform :rotate(10deg)">Place</p>
+                </div>
+                
+                <div style="display:flex;">
+                    <p style="margin-top:-190px; font-size: 20px; color:black; font-weight:bold;padding-left:330px;transform :rotate(10deg)">${player.location.toLowerCase()}</p>
+                </div>
+
+                <div style="display:flex;">
+                    <p style="margin-top:-160px; font-size: 20px; color:maroon; font-weight:bold;padding-left:325px;transform :rotate(10deg)">Contact</p>
+                </div>
+                
+                <div style="display:flex;">
+                    <p style="margin-top:-140px; font-size: 20px; color:black; font-weight:bold;padding-left:325px;transform :rotate(10deg)">${player.contact_no}</p>
+                </div>
+
+                 
             </div>
         `;
         
@@ -94,7 +123,7 @@ const PDFCreator: React.FC<props> = ({playerList}) => {
         document.body.appendChild(tempDiv);
 
         // Capture the temporary content as an image
-        const canvas = await html2canvas(tempDiv, { scale: 2, useCORS: true }); // Scale for better quality
+        const canvas = await html2canvas(tempDiv, { scale: 2, useCORS: true,allowTaint: false, }); // Scale for better quality
         const imgData = canvas.toDataURL('image/png');
         const imgWidth = contentWidth; // Width to fit within margins
         const imgHeight = (canvas.height * imgWidth) / canvas.width; // Preserve aspect ratio
@@ -114,7 +143,7 @@ const PDFCreator: React.FC<props> = ({playerList}) => {
     }
 
     // Save the PDF
-    pdf.save("rainbow.pdf");
+    pdf.save("GPT Players.pdf");
 };
 
 
