@@ -14,6 +14,10 @@ export const PlayerService = () => ({
         
     },
 
+    displayTeamScores: ()=>{
+        return(axios.post(BACKEND_URL + "/display_team_scores"))
+    },
+
     getAllTeams: () => {
         return(axios.get(BACKEND_URL + "/teams/" ))
     },

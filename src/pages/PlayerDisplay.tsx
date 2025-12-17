@@ -25,6 +25,7 @@ const PlayerDisplay: React.FC = () => {
   const [popUpContent, setPopUpContent] = useState<any>({})
   const [openPopUp, setOpenPopUp] = useState(false);
   const [allTeams, setAllTeams] = useState<any>([])
+    const [showTeams, setShowTeam] = useState(false);
 
   const isMobile = window.matchMedia("(max-width: 600px)").matches;
 
@@ -38,7 +39,7 @@ const PlayerDisplay: React.FC = () => {
             });
     setSocket(newSocket);
     getSoldPlayers();
-    GetAllTeams();
+    // GetAllTeams();
     return () => {
       newSocket.disconnect();
     };
@@ -46,7 +47,7 @@ const PlayerDisplay: React.FC = () => {
 
   useEffect(() => {
     if (socket) {
-
+      setShowTeam(false);
       socket.emit("join-room", roomId);
       
       socket.on("current_player", (data:any) => {
@@ -56,6 +57,7 @@ const PlayerDisplay: React.FC = () => {
       // socket.join(roomId);
       socket.on("current_player", (message: any) => {
         console.log("current_player ---- ", message);
+        setShowTeam(false);
         if(message){
         setCurrentPlayer(JSON.parse(message));
         }
@@ -71,7 +73,7 @@ const PlayerDisplay: React.FC = () => {
         setCurrentCall({})
         // toast.success(`${player.player_name} sold to ${player.team_name} for ${player.bid_amount}`)
         getSoldPlayers();
-        GetAllTeams();
+        // GetAllTeams();
       });
       
       socket.on("team_complete", (message: any) => {
@@ -81,6 +83,11 @@ const PlayerDisplay: React.FC = () => {
 
       socket.on("close_popup", (message: any) => {
         setOpenPopUp(false);
+      })
+
+      socket.on("display_team_scores", (message: any) => {
+        console.log("get scroresssssssssssssssssssssss")
+        GetAllTeams();
       })
       
       
@@ -93,6 +100,7 @@ const PlayerDisplay: React.FC = () => {
         .getAllTeams()
         .then((response: any) => {
           setAllTeams(response?.data);
+          setShowTeam(true);
         });
     } catch (error) {
       console.error("Error fetching players:", error);
@@ -145,6 +153,10 @@ const PlayerDisplay: React.FC = () => {
                     alt="logo" style={{width: "6rem",
                         height: "6rem",
                         borderRadius: "8px",}} />
+
+                    <img  src={`https://storage.googleapis.com/auction-players/${popUpContent.team_logo}`} alt="logo" style={{width: "6rem",
+                        height: "6rem",
+                        borderRadius: "8px",}}/> 
                     <span style={{ padding: "10px", 
                         fontWeight:'bold',
                         fontSize:'38px',
@@ -168,9 +180,44 @@ const PlayerDisplay: React.FC = () => {
             </div>
         }
 
+        <div>
+          {allSoldPlayers && allSoldPlayers.length>0 &&
+              <div style={soldPlayerListStyle}>
+                  
+                  { allSoldPlayers.map((element:any, index:number) => (
+                      <div key={index} style={{display:'flex', padding:'10px'}} >
+                        <img  src={`https://storage.googleapis.com/auction-players/${element.profile_image}`} alt="logo" style={profileImageStyle1}/>
+                              {/* <img
+                              src={BACKEND_URL + '/player_images/' + element.profile_image}
+                                  alt="logo"
+                                  style={profileImageStyle1}
+                              /> */}
+                              <div style={{color:'black'}}>
+                                  <div >
+                                      <span style={fullNameText}>{element.id}.{element.fullname.toUpperCase()}</span>
+                                  </div>
+                                  <div >
+                                      <span style={fullNameText}>{element.player_role}</span>
+                                  </div>
+                                  <div >
+                                      <span style={fullNameText}>Team : {element.team_id}</span>
+                                  </div>
+                                  <div >
+                                      <span style={fullNameText}>Points : {element.bid_amount}</span>
+                                  </div>
+                              </div>
+
+
+                      </div>
+                  ))}
+              </div>
+          }
+          </div>
+
+
 
             <div >
-                {currentBidPlayer && currentBidPlayer.id && (
+                {!showTeams &&   currentBidPlayer && currentBidPlayer.id && (
                     <div style={players__card__wrap}>
                     {/* <div style={cardHeader}> */}
                       <div style={{display:'flex'}}>
@@ -227,64 +274,37 @@ const PlayerDisplay: React.FC = () => {
             </div>
 
 
-          <div>
-          {allSoldPlayers && allSoldPlayers.length>0 &&
-              <div style={soldPlayerListStyle}>
-                  
-                  { allSoldPlayers.map((element:any, index:number) => (
-                      <div key={index} style={{display:'flex', padding:'10px'}} >
-                        <img  src={`https://storage.googleapis.com/auction-players/${element.profile_image}`} alt="logo" style={profileImageStyle1}/>
-                              {/* <img
-                              src={BACKEND_URL + '/player_images/' + element.profile_image}
-                                  alt="logo"
-                                  style={profileImageStyle1}
-                              /> */}
-                              <div style={{color:'purple'}}>
-                                  <div >
-                                      <span style={fullNameText}>{element.id}.{element.fullname.toUpperCase()}</span>
-                                  </div>
-                                  <div >
-                                      <span style={fullNameText}>{element.player_role}</span>
-                                  </div>
-                                  <div >
-                                      <span style={fullNameText}>Team : {element.team_id}</span>
-                                  </div>
-                                  <div >
-                                      <span style={fullNameText}>Points : {element.bid_amount}</span>
-                                  </div>
+          
+
+
+              <div style={teamListContainer}>
+                    {showTeams && allTeams &&
+                      allTeams.map((team: any, index: number) => (
+                        <>
+                          {team.player_count !== TOTAL_PLAYER && (
+                            <div
+                              style={teamCardContainer}
+                              key={index}
+                            >
+                              <div style={{display:"flex", color:'white'}}>
+                        <img  src={`https://storage.googleapis.com/auction-players/${team.team_logo}`} alt="logo" style={imageStyle}/>
+                                {/* <img key={index} src={BACKEND_URL + '/player_images/' + team.team_logo} alt="logo" style={imageStyle} /> */}
+            
+                                {/* <img key={index} src={`https://drive.google.com/thumbnail?id=${team.team_logo}&z=w1000`} alt="logo" style={teamLogoStyle}/> */}
+                                <h4 style={{ padding: "10px" }}>{team.team_name}</h4>
                               </div>
+                              <hr />
+                              <div style={{color:'white'}}>Max Bid Amount : {team.max_bid_amount}</div>
+                              <hr />
+                              {/* Players : {team.player_count}/ { TOTAL_PLAYER } | Points : {team.total_points} */}
+                              <div style={{color:'white'}}>Points : {team.total_points}  ({team.player_count}/{TOTAL_PLAYER}) </div>
+                            </div>
+                          )}
+                        </>
+                      ))}
+                  </div>
 
 
-                      </div>
-                  ))}
-              </div>
-          }
-          </div>
-
-
-              {/* {!isMobile && 
-          <div style={allTeamStyle}>
-            {allTeams && allTeams.length>0 &&
-              <div >
-                  { allTeams.map((team:any, index:number) => (
-                      <div key={index} style={teamStyle} >
-                              
-                      <div style={{display:'flex'}}>
-                        <img key={index} src={BACKEND_URL + '/player_images/' + team.team_logo} alt="logo" style={imageStyle} />
-                        <h4 style={{ padding: "10px" }}>{team.team_name}</h4>
-                      </div>
-                      
-                      <hr />
-                      Max Bid Amount : {team.max_bid_amount}
-                      <hr />
-                      Points : {team.total_points}  ({team.player_count}/{TOTAL_PLAYER})
-                      </div>
-                      
-                  ))}
-              </div>
-          }
-          </div>
-          } */}
            
 
 
@@ -292,6 +312,18 @@ const PlayerDisplay: React.FC = () => {
 
     </div>
   );
+};
+
+
+const teamListContainer: React.CSSProperties = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(16rem, 1fr))",
+  // gap: "2rem",
+  maxWidth: "63rem",
+  margin: "0 auto",
+  padding: "1rem",
+  marginTop : "133px",
+  marginLeft : '95px'
 };
 
 
@@ -445,7 +477,7 @@ const players__card__wrap: React.CSSProperties = {
   boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
   borderRadius: "8px",
 //   margin: "0/ auto",
-  marginLeft: "180px",
+  marginLeft: "97px",
   width : '1270px',
   marginTop : '168px',
   height : '708px'
@@ -468,9 +500,11 @@ const playerCountStyle: React.CSSProperties = {
 };
 
 const displayMargin : React.CSSProperties = {
+  display :'flex',
   backgroundColor:'black',
     marginTop : '-150px',
-    padding:'10px'
+    padding:'10px',
+    width: '142%'
 }
 
 const soldPlayersStyle : React.CSSProperties = {
@@ -492,8 +526,8 @@ const soldPlayerListStyle : React.CSSProperties = {
   border: "1px solid purple",
  boxShadow: "0 2px 4px rgba(0, 0, 0, 1.1)",
   borderRadius: "8px",
-  width:'30%',
-  marginTop: '50px',
+  width:'137%',
+  marginTop: '168px',
   // marginLeft: '-280px'
 }
 

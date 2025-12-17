@@ -283,6 +283,10 @@ const AuctionCenter: React.FC = () => {
     InvokeClosePopup();
   }
 
+   const displayScores = () =>{
+    PlayerService().displayTeamScores()
+  }
+
 
 
   return (
@@ -415,6 +419,7 @@ const AuctionCenter: React.FC = () => {
         <button style={unSoldButtonStyle} onClick={setUnsoldPlayer} >Un Sold</button>
         <button style={bidBackButtonStyle} onClick={handleBidBack}>Back</button>
         <button style={searchuttonStyle} onClick={getUnsoldPlayers} >Get Unsold Players</button>
+        <button style={searchuttonStyle} onClick={displayScores} >Get Team Scores</button>
       </div>
 
       <div style={teamListContainer}>
