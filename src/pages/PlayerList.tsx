@@ -342,7 +342,7 @@ const roleOverlayStyle: React.CSSProperties = {
   color: "white",
   fontWeight: 700,
   fontSize: "clamp(11px, 0vw, 30px)",   // responsive font
-  textAlign: "center",
+  textAlign: "left",
   padding: "6px 14px",
   borderRadius: "20px",
   maxWidth: "90%",
@@ -356,13 +356,13 @@ const roleOverlayStyle: React.CSSProperties = {
 
 const battingOverlayStyle: React.CSSProperties = {
   position: "absolute",                 // REQUIRED
-  bottom: "24%",                        // relative to image height
-  left: "38%",
+  bottom: "24.8%",                        // relative to image height
+  left: "39%",
   transform: "translateX(-50%)",
   color: "white",
   fontWeight: 700,
   fontSize: "clamp(11px, 0vw, 30px)",   // responsive font
-  textAlign: "center",
+  textAlign: "left",
   padding: "6px 14px",
   borderRadius: "20px",
   maxWidth: "90%",
@@ -382,7 +382,7 @@ const bowlingOverlayStyle: React.CSSProperties = {
   color: "white",
   fontWeight: 700,
   fontSize: "clamp(11px, 0vw, 30px)",   // responsive font
-  textAlign: "center",
+  textAlign: "left",
   padding: "6px 14px",
   borderRadius: "20px",
   maxWidth: "90%",
@@ -396,12 +396,12 @@ const bowlingOverlayStyle: React.CSSProperties = {
 const locationOverlayStyle: React.CSSProperties = {
   position: "absolute",                 // REQUIRED
   bottom: "18%",                        // relative to image height
-  left: "37%",
+  left: "39%",
   transform: "translateX(-50%)",
   color: "white",
   fontWeight: 700,
   fontSize: "clamp(11px, 0vw, 30px)",   // responsive font
-  textAlign: "center",
+  textAlign: "left",
   padding: "6px 14px",
   borderRadius: "20px",
   maxWidth: "90%",
@@ -417,12 +417,12 @@ const locationOverlayStyle: React.CSSProperties = {
 const contactOverlayStyle: React.CSSProperties = {
   position: "absolute",                 // REQUIRED
   bottom: "14%",                        // relative to image height
-  left: "40%",
+  left: "39%",
   transform: "translateX(-50%)",
   color: "white",
   fontWeight: 700,
   fontSize: "clamp(11px, 0vw, 30px)",   // responsive font
-  textAlign: "center",
+  textAlign: "left",
   padding: "6px 14px",
   borderRadius: "20px",
   maxWidth: "90%",
@@ -438,13 +438,13 @@ const overlayImageStyle: React.CSSProperties = {
   position: "absolute",
 
   /* responsive positioning */
-  top: "64%",               // relative to poster height
-  left: "76%",
+  top: "63%",               // relative to poster height
+  left: "76.5%",
   transform: "translateX(-50%)",
 
   /* responsive sizing */
-  width: "clamp(126px, 22vw, 142px)",
-  aspectRatio: "127 / 173", // keeps image ratio
+  width: "clamp(90px, 34vw, 146px)", // 👈 desktop max = 146px
+  aspectRatio: "127 / 173",
   height: "auto",
 
   objectFit: "cover",
