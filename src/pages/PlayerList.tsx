@@ -452,23 +452,41 @@ const contactOverlayStyle: React.CSSProperties = {
   width : '258px'
 };
 
+// const overlayImageStyle: React.CSSProperties = {
+//   position: "absolute",
+//   top: "12%",
+//   left: "50.5%",
+//   transform: "translateX(-50%)",
+//   width: "clamp(90px, 34vw, 251px)",
+//   height: "auto",
+//   aspectRatio: "127 / 173",
+//   objectFit: "cover",
+//   backgroundColor: "white",
+//   borderRadius: "12px",
+//   zIndex: 2,
+
+//   // enhancements
+//   boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
+//   border: "2px solid rgba(255,255,255,0.8)",
+//   transition: "transform 0.3s ease, box-shadow 0.3s ease",
+// };
+
 const overlayImageStyle: React.CSSProperties = {
   position: "absolute",
   top: "12%",
-  left: "50.5%",
-  transform: "translateX(-50%)",
-  width: "clamp(90px, 34vw, 251px)",
-  height: "auto",
+  left: "50%",
+  transform: "translate(-50%, 0)",
+
+  width: "clamp(90px, 65vw, 251px)",
   aspectRatio: "127 / 173",
   objectFit: "cover",
+
   backgroundColor: "white",
   borderRadius: "12px",
   zIndex: 2,
 
-  // enhancements
   boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
   border: "2px solid rgba(255,255,255,0.8)",
-  transition: "transform 0.3s ease, box-shadow 0.3s ease",
 };
 
 
