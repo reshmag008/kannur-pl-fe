@@ -477,7 +477,7 @@ const overlayImageStyle: React.CSSProperties = {
   left: "50%",
   transform: "translate(-50%, 0)",
 
-  width: "clamp(90px, 65vw, 251px)",
+  width: "clamp(90px, 59vw, 251px)",
   aspectRatio: "127 / 173",
   objectFit: "cover",
 
