@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import logo from "../assets/icon.jpeg"; // Import your logo file
+import logo from "../assets/icon.png"; // Import your logo file
 import { useNavigate } from "react-router-dom";
 import sidebarButton from '../assets/ham1.png'
 import { buttonColor, headerBg } from "../constants";
@@ -119,7 +119,7 @@ const Header: React.FC<HeaderProps> = () => {
         <img src={logo} alt="Logo" style={logoStyle} onClick={() => {
               navigate("/");
             }}/>
-            <div style={{padding : '10px', marginTop:'22px', color : '#FFBF00',fontWeight:'900', fontFamily:'cursive' }} >Mixed 8 Kannur Premier League</div>
+            <div style={{padding : '10px', marginTop:'22px', color : '#FFBF00',fontWeight:'900', fontFamily:'cursive' }} >Kannur Premier League</div>
       </div>
       
       <nav>
@@ -203,7 +203,7 @@ const logoContainerStyle: React.CSSProperties = {
 };
 
 const logoStyle: React.CSSProperties = {
-  height: "3rem", // Adjust according to your logo size
+  height: "4rem", // Adjust according to your logo size
   cursor:'pointer',
   padding:'10px'
 };
