@@ -360,7 +360,7 @@ const roleOverlayStyle: React.CSSProperties = {
   transform: "translateX(-50%)",
   color: "white",
   fontWeight: 700,
-  fontSize: "clamp(25px, 0vw, 30px)",   // responsive font
+  fontSize: "clamp(20px, 0vw, 30px)",   // responsive font
   textAlign: "left",
   padding: "6px 14px",
   borderRadius: "20px",
@@ -380,7 +380,7 @@ const battingOverlayStyle: React.CSSProperties = {
   transform: "translateX(-50%)",
   color: "white",
   fontWeight: 700,
-  fontSize: "clamp(25px, 0vw, 30px)",   // responsive font
+  fontSize: "clamp(20px, 0vw, 30px)",   // responsive font
   textAlign: "left",
   padding: "6px 14px",
   borderRadius: "20px",
@@ -400,7 +400,7 @@ const bowlingOverlayStyle: React.CSSProperties = {
   transform: "translateX(-50%)",
   color: "white",
   fontWeight: 700,
-  fontSize: "clamp(25px, 0vw, 30px)",   // responsive font
+  fontSize: "clamp(20px, 0vw, 30px)",   // responsive font
   textAlign: "left",
   padding: "6px 14px",
   borderRadius: "20px",
@@ -419,7 +419,7 @@ const locationOverlayStyle: React.CSSProperties = {
   transform: "translateX(-50%)",
   color: "white",
   fontWeight: 700,
-  fontSize: "clamp(25px, 0vw, 30px)",   // responsive font
+  fontSize: "clamp(20px, 0vw, 30px)",   // responsive font
   textAlign: "left",
   padding: "6px 14px",
   borderRadius: "20px",
@@ -440,7 +440,7 @@ const contactOverlayStyle: React.CSSProperties = {
   transform: "translateX(-50%)",
   color: "white",
   fontWeight: 700,
-  fontSize: "clamp(25px, 0vw, 30px)",   // responsive font
+  fontSize: "clamp(20px, 0vw, 30px)",   // responsive font
   textAlign: "left",
   padding: "6px 14px",
   borderRadius: "20px",
