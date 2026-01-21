@@ -421,12 +421,12 @@ const bowlingOverlayStyle: React.CSSProperties = {
 
 const locationOverlayStyle: React.CSSProperties = {
   position: "absolute",                 // REQUIRED
-  bottom: "15%",                        // relative to image height
+  bottom: "15.5%",                        // relative to image height
   left: "86%",
   transform: "translateX(-50%)",
   color: "#006D5B",
   fontWeight: 'bolder',
-  fontSize: "clamp(16px, 0vw, 30px)",   // responsive font
+  fontSize: "clamp(14px, 0vw, 30px)",   // responsive font
   textAlign: "left",
   // padding: "6px 14px",
   // borderRadius: "20px",
