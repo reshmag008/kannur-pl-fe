@@ -153,6 +153,13 @@ useEffect(() => {
 
     }
 
+    const capitalizeFirst = (str: any) => {
+    if (!str) return "";
+    str = str.toLowerCase();
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+  
+
 return (
 
   
@@ -220,35 +227,35 @@ return (
             style={overlayImageStyle}
         />
 
-        
-
-            <div style={idOverlayStyle}>
-                {player.id}. {player.fullname.toUpperCase()}
+             <div style={idOverlayStyle}>
+                {player.id}
             </div>
 
+            
+
             <div style={roleOverlayStyle}>
-                Role : {player.player_role}
+                {player.player_role}
             </div>
 
             <div style={battingOverlayStyle}>
-                Batting :{player.batting_style}
+                {player.batting_style}
             </div>
 
             <div style={bowlingOverlayStyle}>
-                Bowling : {player.bowling_style}
+                {player.bowling_style}
             </div>
 
             <div style={locationOverlayStyle}>
-                Place : {player.location}
+                {capitalizeFirst(player.location)}
             </div>
 
             <div style={contactOverlayStyle}>
-                Contact : {player.contact_no}
+                {player.contact_no}
             </div>
 
-            {/* <div style={nameOverlayStyle}>
+            <div style={nameOverlayStyle}>
                 {player.fullname.toUpperCase()}
-            </div> */}
+            </div>
 
             <img
                 src={bklogo}
@@ -317,12 +324,12 @@ const imageStyle: React.CSSProperties = {
 
 const idOverlayStyle: React.CSSProperties = {
   position: "absolute",                 // REQUIRED
-  bottom: "39%",                        // relative to image height
-  left: "44%",
+  bottom: "37%",                        // relative to image height
+  left: "51%",
   transform: "translateX(-50%)",
-  color: "black",
+  color: "white",
   fontWeight: 700,
-  fontSize: "clamp(14px, 7vw, 30px)",   // responsive font
+  fontSize: "clamp(14px, 7vw, 49px)",   // responsive font
   textAlign: "center",
   padding: "6px 14px",
   borderRadius: "20px",
@@ -331,18 +338,18 @@ const idOverlayStyle: React.CSSProperties = {
   overflow: "hidden",
   textOverflow: "ellipsis",
   zIndex: 2,
-  width : '317px'
+  width : '49px'
 };
 
 const nameOverlayStyle: React.CSSProperties = {
   position: "absolute",                 // REQUIRED
-  bottom: "9%",                        // relative to image height
-  left: "19%",
+  bottom: "5%",                        // relative to image height
+  left: "70%",
   transform: "translateX(-50%)",
   color: "white",
   fontWeight: 700,
-  fontSize: "clamp(11px, 1vw, 30px)",   // responsive font
-  textAlign: "right",
+  fontSize: "clamp(11px, 1.3vw, 30px)",   // responsive font
+  textAlign: "center",
   padding: "6px 14px",
   borderRadius: "20px",
   maxWidth: "90%",
@@ -355,92 +362,92 @@ const nameOverlayStyle: React.CSSProperties = {
 
 const roleOverlayStyle: React.CSSProperties = {
   position: "absolute",                 // REQUIRED
-  bottom: "28%",                        // relative to image height
-  left: "54%",
+  bottom: "27%",                        // relative to image height
+  left: "86%",
   transform: "translateX(-50%)",
-  color: "white",
-  fontWeight: 700,
-  fontSize: "clamp(20px, 0vw, 30px)",   // responsive font
+  color: "#006D5B",
+  fontWeight: 'bolder',
+  fontSize: "clamp(16px, 0vw, 30px)",   // responsive font
   textAlign: "left",
-  padding: "6px 14px",
-  borderRadius: "20px",
+  // padding: "6px 14px",
+  // borderRadius: "20px",
   maxWidth: "90%",
   whiteSpace: "nowrap",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
+  // overflow: "hidden",
+  // textOverflow: "ellipsis",
   zIndex: 2,
-  width : '258px'
+  width : '99px'
 };
 
 
 const battingOverlayStyle: React.CSSProperties = {
   position: "absolute",                 // REQUIRED
   bottom: "23%",                        // relative to image height
-  left: "54%",
+  left: "86%",
   transform: "translateX(-50%)",
-  color: "white",
-  fontWeight: 700,
-  fontSize: "clamp(20px, 0vw, 30px)",   // responsive font
+  color: "#006D5B",
+  fontWeight: 'bolder',
+  fontSize: "clamp(16px, 0vw, 30px)",   // responsive font
   textAlign: "left",
-  padding: "6px 14px",
-  borderRadius: "20px",
+  // padding: "6px 14px",
+  // borderRadius: "20px",
   maxWidth: "90%",
   whiteSpace: "nowrap",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
+  // overflow: "hidden",
+  // textOverflow: "ellipsis",
   zIndex: 2,
-  width : '258px'
+  width : '99px'
 };
 
 
 const bowlingOverlayStyle: React.CSSProperties = {
   position: "absolute",                 // REQUIRED
-  bottom: "18%",                        // relative to image height
-  left: "54%",
+  bottom: "19%",                        // relative to image height
+  left: "86%",
   transform: "translateX(-50%)",
-  color: "white",
-  fontWeight: 700,
-  fontSize: "clamp(20px, 0vw, 30px)",   // responsive font
+  color: "#006D5B",
+  fontWeight: 'bolder',
+  fontSize: "clamp(16px, 0vw, 30px)",   // responsive font
   textAlign: "left",
-  padding: "6px 14px",
-  borderRadius: "20px",
+  // padding: "6px 14px",
+  // borderRadius: "20px",
   maxWidth: "90%",
   whiteSpace: "nowrap",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
+  // overflow: "hidden",
+  // textOverflow: "ellipsis",
   zIndex: 2,
-  width : '258px'
+  width : '99px'
 };
 
 const locationOverlayStyle: React.CSSProperties = {
   position: "absolute",                 // REQUIRED
-  bottom: "13%",                        // relative to image height
-  left: "54%",
+  bottom: "15%",                        // relative to image height
+  left: "86%",
   transform: "translateX(-50%)",
-  color: "white",
-  fontWeight: 700,
-  fontSize: "clamp(20px, 0vw, 30px)",   // responsive font
+  color: "#006D5B",
+  fontWeight: 'bolder',
+  fontSize: "clamp(16px, 0vw, 30px)",   // responsive font
   textAlign: "left",
-  padding: "6px 14px",
-  borderRadius: "20px",
+  // padding: "6px 14px",
+  // borderRadius: "20px",
   maxWidth: "90%",
   whiteSpace: "nowrap",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
+  // overflow: "hidden",
+  // textOverflow: "ellipsis",
   zIndex: 2,
-  width : '258px'
+  width : '100px'
 };
 
 
 
 const contactOverlayStyle: React.CSSProperties = {
   position: "absolute",                 // REQUIRED
-  bottom: "8%",                        // relative to image height
-  left: "54%",
+  bottom: "10%",                        // relative to image height
+  left: "74%",
   transform: "translateX(-50%)",
-  color: "white",
+  color: "#006D5B",
   fontWeight: 700,
-  fontSize: "clamp(20px, 0vw, 30px)",   // responsive font
+  fontSize: "clamp(16px, 0vw, 30px)",   // responsive font
   textAlign: "left",
   padding: "6px 14px",
   borderRadius: "20px",
@@ -449,7 +456,7 @@ const contactOverlayStyle: React.CSSProperties = {
   overflow: "hidden",
   textOverflow: "ellipsis",
   zIndex: 2,
-  width : '258px'
+  width : '110px'
 };
 
 // const overlayImageStyle: React.CSSProperties = {
@@ -473,16 +480,16 @@ const contactOverlayStyle: React.CSSProperties = {
 
 const overlayImageStyle: React.CSSProperties = {
   position: "absolute",
-  top: "12%",
-  left: "50%",
+  top: "60.3%",
+  left: "24%",
   transform: "translate(-50%, 0)",
 
-  width: "clamp(90px, 59vw, 251px)",
+  width: "clamp(90px, 59vw, 136px)",
   aspectRatio: "127 / 173",
   objectFit: "cover",
 
   backgroundColor: "white",
-  borderRadius: "12px",
+  borderRadius: "23px",
   zIndex: 2,
 
   boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
@@ -512,15 +519,15 @@ const ktcalogoStyle : React.CSSProperties = {
 
 const bklogoStyle : React.CSSProperties = {
   position: "absolute",
-  top: "93%",
+  top: "91%",
   left: "6.5%",
   transform: "translateX(-50%)",
   width: "clamp(37px, 34vw, 20px)",
   height: "auto",
   aspectRatio: "127 / 168",
-  // objectFit: "cover",
+  objectFit: "cover",
   // backgroundColor: "white",
-  // borderRadius: "12px",
+  borderRadius: "25px",
   zIndex: 2,
 
   // enhancements
