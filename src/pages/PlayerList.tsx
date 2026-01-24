@@ -329,7 +329,7 @@ const idOverlayStyle: React.CSSProperties = {
   transform: "translateX(-50%)",
   color: "white",
   fontWeight: 700,
-  fontSize: "clamp(14px, 7vw, 49px)",   // responsive font
+  fontSize: "clamp(14px, 7vw, 34px)",   // responsive font
   textAlign: "center",
   padding: "6px 14px",
   borderRadius: "20px",
